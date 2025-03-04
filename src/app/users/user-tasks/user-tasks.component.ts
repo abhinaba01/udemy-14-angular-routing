@@ -21,17 +21,16 @@ export class UserTasksComponent {
   userName = input.required<string>();
   // private usersService = inject(UsersService);
 
-
   message = input.required<string>();
   private activatedRoute = inject(ActivatedRoute);
 
-
-  ngOnInit(){
-    this.activatedRoute.data.subscribe({   // this returns an observable  that emits a value when the route value changes or a new dynamic value is emitted.
-      next: data =>{
-        console.log(data)
-      }
-    })
+  ngOnInit() {
+    this.activatedRoute.data.subscribe({
+      // this returns an observable  that emits a value when the route value changes or a new dynamic value is emitted.
+      next: (data) => {
+        console.log(data);
+      },
+    });
   }
 
   // userName = computed(
@@ -52,4 +51,11 @@ export const resolveUserName: ResolveFn<string> = (
       (u) => u.id === activatedRoute.paramMap.get('userId')
     )?.name || '';
   return userName;
+};
+
+export const resolveTitle: ResolveFn<string> = (
+  activatedRoute: ActivatedRouteSnapshot,
+  routerState: RouterStateSnapshot
+) => {
+  return resolveUserName(activatedRoute,routerState) + '\'s Tasks'
 };
